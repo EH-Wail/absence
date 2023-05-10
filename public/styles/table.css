@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+body{
+    padding-top:120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(244, 247, 255);
+}
+.container{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:35px;
+    background-color: white;
+    height: 100%;
+    border-radius: 15px;
+}
+.container form{
+    margin:2.5em;
+}
+.container form button:not(.logout){
+    height: 2.5em;
+    width: 10.625em;
+    background-color: rgb(73, 116, 233);
+    color:white;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-radius: 7px;
+    border: 0;
+    padding:5px 20px;
+    opacity: .9;
+    transition: all .2s ease-out;
+}
+.container form button:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+.container .results{
+    margin-bottom: 2.25em;
+}
+.container .results h3{
+    text-align:center;
+    font-weight:bolder;
+    margin-bottom: 1.25em;
+}
+.container .results h5{
+    padding-right:20px;
+    font-weight:lighter;
+    opacity:.7;
+    text-align:right;
+}
+.container .results .results-container .single-result{
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    padding:10px 20px;
+    border-bottom:1px solid #EEE;
+    transition: all .3s ease-out;
+}
+.container .results .results-container .single-result:hover{
+    background-color: #EFEFEF;
+    border-radius: 7px;
+}
+.container .results .results-container .single-result .student{
+    display: flex;
+    align-items: center;
+}
+.container .results .results-container .single-result .student img{
+    margin-right: 0.625em;
+}
+.container .results .results-container .single-result .student div span, .container .results .results-container .single-result .date span{
+    opacity:.7;
+    font-size:.9em;
+}
+@media only screen and (max-width: 992px) {
+    body{
+        background-color: white;
+        padding-top:50px;
+    }
+    .container{
+        box-shadow: none;
+    }
+    .container .img{
+        display: none;
+    }
+    #filiere{
+        margin-bottom:1.652em;
+    }
+    .container .results h3{
+        text-align: center;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .container form{
+        display: flex;
+        flex-direction: column;
+    }
+    #seance{
+        margin-bottom:1.652em;
+    }
+    .container form input{
+        margin-bottom:1.652em;
+    }
+    .container form button{
+        align-self: center; 
+    }
+}

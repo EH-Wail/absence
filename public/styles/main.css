@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap');
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+body{
+    padding-top:120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(244, 247, 255);
+}
+.container{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding:25px;
+    background-color: white;
+    width:100%;
+    height: 100%;
+    border-radius: 15px;
+}
+.img{
+    width: fit-content;
+    padding:0 20px;
+    border-radius: 15px;
+    background-color: rgb(244, 247, 255);
+}
+.login{
+    display: flex;
+    flex-direction: column;
+}
+.login .logo{
+    align-self: flex-end;
+    margin-bottom:1.5625em;
+}
+.login .header h1{
+    color:rgb(32, 40, 87);
+    margin-bottom:1.5625em;
+}
+.login .header p{
+    color:rgb(32, 40, 87);
+    opacity: .6;
+}
+.login .login-form{
+    margin-top:1.25000em;
+    margin-bottom: 100px;
+}
+.login .login-form .informations{
+    display: flex;
+    flex-direction: column;
+    margin-top:1.875;
+}
+.login .login-form .informations label{
+    color:rgb(32, 40, 87);
+    opacity: .6;
+    margin-bottom: 0.625;
+}
+.login .login-form .informations input{
+    padding: 0.3125em 1.25000em;
+    height: 2.5em;
+    width: 70%;
+    border-radius: 7px;
+    border:1px solid #CCC;
+}
+.login .login-form .informations input:focus{
+    border:0;
+    outline: 1px solid rgb(32, 40, 87);
+}
+.login .login-form .remember{
+    margin-top:10px;
+    margin-bottom: 50px;
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+.login .login-form .remember div label{
+    color:rgb(32, 40, 87);
+    margin-left:5px;
+}
+.login .login-form button{
+    height: 40px;
+    width: 70%;
+    background-color: rgb(73, 116, 233);
+    color:white;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-radius: 7px;
+    border: 0;
+    padding:5px 20px;
+    opacity: .9;
+    transition: all .2s ease-out;
+}
+.login .login-form button:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+
+@media only screen and (max-width: 1200px){
+    .login .login-form .informations input, .login .login-form button{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 992px) {
+    body{
+        background-color: white;
+        padding-top:50px;
+    }
+    .container{
+        box-shadow: none;
+    }
+    .container .img{
+        display: none;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .login{
+        justify-content: center;
+        align-items: center;
+    }
+    .login .logo{
+        align-self: center;
+    }
+    .login .header h1, .login .header p{
+        text-align: center;
+    }
+    .login .login-form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .login .login-form .informations, .login .login-form .remember{
+        align-items: center;
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 576px) {
+    .login{
+        justify-content: center;
+        align-items: center;
+    }
+    .login .logo{
+        align-self: center;
+    }
+    .login .header h1, .login .header p{
+        text-align: center;
+    }
+    .login .login-form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .login .login-form .informations{
+        align-items: center;
+        width: 100%;
+    }
+}
