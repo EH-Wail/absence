@@ -33,7 +33,7 @@
                 <select name="seance" id="seance" class="form-select">
                     <option value="" disabled>-- Séance --</option>
                     @foreach (App\Models\Appearance::SEANCES_STRING as $key => $seance)
-                      <option value={{$key}} {{(request('seance') ?? old('seance')) == $seance ? 'selected' : ''}}>{{$seance}}</option>
+                      <option value={{$key}} {{(request('seance') ?? old('seance')) == $key ? 'selected' : ''}}>{{$seance}}</option>
                     @endforeach
                 </select>
             </div>

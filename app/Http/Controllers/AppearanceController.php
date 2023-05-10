@@ -27,17 +27,20 @@ class AppearanceController extends Controller
                     ->project(['_id' => 0])
                     ->first()
                     ?->presence;
-        // dd(Appearance::SEANCES[request('seance')]);
+        // Arr::where raise error if null
+        if ($eleves_present == null ){$eleves_present = [];};
+
         $eleves_present = Arr::where($eleves_present, function ($value , $key){
-            return $value['checkIn']<Appearance::SEANCES[request('seance')] && 
-            (array_key_exists('checkOut', $value) ? !($value['checkOut']<Appearance::SEANCES[request('seance')]) : true );
+            if (
+                $value['checkIn']<Appearance::SEANCES[request('seance')] 
+                    && 
+                (array_key_exists('checkOut', $value) ? !($value['checkOut']<Appearance::SEANCES[request('seance')]) : true )){
+                return $value;
+            };  
         });
-        // dd($eleves_present);
-        // $retard = Arr::map($eleves_present, function ($value, $key){
-        //     // retard de 30 min , 150 min par seance
-        //         $retard[$key] = Appearance::SEANCES[request('seance')]-$value['checkIn']<120;
-        //     return $retard;
-        // });
+    
+            // retard de 30 min , 150 min par seance
+     
         $retard = collect($eleves_present)->mapWithKeys(function ($eleve , $key){
             return [$eleve['perso_id'] => Appearance::SEANCES[request('seance')]-$eleve['checkIn']<120];
         });
