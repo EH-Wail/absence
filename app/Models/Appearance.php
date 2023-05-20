@@ -33,6 +33,12 @@ class Appearance extends Model
         3 => 960,
         4 => 1110,
     ];
+
+    public const STATUT_ABSENCE = [
+        "1" => "Absent",
+        "2" => "Present",
+        "3" => "Retard"
+    ];
     public function presences ()
     {
         return $this->embedsMany(Presence::class);

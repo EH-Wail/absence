@@ -2,20 +2,19 @@
 @section('css')
     <link rel="stylesheet" href="{{asset('styles/table.css')}}">
 @endsection
-@section('title')
-    Dashboard
+@section('title', 'Dashboard')
+    
+@section('meta')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-between ">
+        <div class="header">
             <a href="#" class="logo"><img src="{{asset('images/logo.jpg')}}" alt="ofppt" width="100px"/></a>
-            <div>
-                {{-- button inside div only because he take the height of the logo --}}
-                <form action="{{route('logout')}}" method="post">
-                    @csrf
-                    <button type="submit" class="btn btn-danger logout" >Se déconnecter</button>
-                </form>
-            </div>
+            <form action="{{route('logout')}}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary logout">Se déconnecter<img src="{{asset('images/exit-svgrepo-com.svg')}}" alt="logout" width="30px"></button>
+            </form>
         </div>
         <form class="row" method="get" action="{{route('dashboard')}}">
             <div class="col-xxl-4 col-xl-3 col-lg-3 col-md-6 col-sm-12">
@@ -60,21 +59,24 @@
                                 </div>
                             </div>
                             
-                            @if ($eleves_present->contains($eleve))
-                                @php
-                                    $present = ['success', 'Present'];
-                                @endphp
-                            @else
-                                @php
-                                    $present = ['danger', 'Absent'];
-                                @endphp
-                            @endif
+                            @php
+                                $present = $eleves_present->contains($eleve) ? ['success', 'Present'] : ['danger', 'Absent'] ;
+                            @endphp
 
                             <div class="presence">
-                                @if ($retard_list->has($eleve->id) && $retard_list[$eleve->id] == true)
-                                    <span class="badge bg-warning">retard</span>
-                                @endif
-                                <span class="badge bg-{{$present[0]}}">{{$present[1]}}</span>
+
+                                <div id="{{$eleve->id}}" class="testt">
+                                    @if ($retard_list->contains($eleve->id) )
+                                        <span class="text-warning retard">retard</span>
+                                    @endif
+                                    <span class="badge bg-{{$present[0]}}">{{$present[1]}}</span>
+                                </div>
+                                <select class="form-select bg-light select_absence" id="statut_absence_{{$eleve->id}}">
+                                    <option selected value="" disabled>Choose...</option>
+                                    @foreach (App\Models\Appearance::STATUT_ABSENCE as $key => $value)
+                                    <option value={{$key}}>{{$value}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     @endforeach
@@ -82,4 +84,95 @@
             </div>
         @endif
     </div>
+    
+    <script>
+        const select_absence = document.querySelectorAll('.select_absence');
+        select_absence.forEach((select) => {
+            select.addEventListener('change', () => {
+                const selected_value = parseInt(select.value);
+                const user = select.previousElementSibling.children;
+                if(selected_value === 1){
+                    if(user.length === 1){
+                        user[0].className = "badge bg-danger";
+                        user[0].textContent = "Absent"
+                    }else{
+                        user[0].style.display = "none";
+                        user[1].className = "badge bg-danger";
+                        user[1].textContent = "Absent"
+                    }
+                }
+                else if(selected_value === 2){
+                    if(user.length === 1){
+                        user[0].className = "badge bg-success";
+                        user[0].textContent = "Present";
+                    }else{
+                        user[0].style.display = "none";
+                        user[1].className = "badge bg-success";
+                        user[1].textContent = "Present";
+                    }
+                }else if(selected_value === 3){
+                    if(user.length === 1){
+                        if(user[0].className === "badge bg-success"){
+                            const span = document.createElement('span');
+                            span.className = "text-warning retard";
+                            span.textContent = "retard";
+                            user[0].parentNode.insertBefore(span, user[0]);
+                        }else if(user[0].className === "badge bg-danger"){
+                            user[0].className = "badge bg-success";
+                            user[0].textContent = "Present";
+                            const span = document.createElement('span');
+                            span.className = "text-warning retard";
+                            span.textContent = "retard";
+                            user[0].parentNode.insertBefore(span, user[0]);
+                        }
+                    }
+                    else{
+                        if(user[1].className === "badge bg-success"){
+                            user[0].style.display = "block";
+                        }else if(user[1].className === "badge bg-danger"){
+                            user[1].className = "badge bg-success";
+                            user[1].textContent = "Present";
+                            user[0].style.display = "block";
+                        }
+                    }
+                }
+                const eleveId = select.previousElementSibling.id;
+                const date = document.getElementById('date').value;
+                const seance = document.getElementById('seance').value;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                const xhr = new XMLHttpRequest();
+                let formData = new FormData();
+                formData.append('_token', "{{csrf_token()}}")
+                formData.append('id', eleveId);
+                formData.append('statut_absence', selected_value);
+                formData.append('seance', seance);
+                formData.append('date', date);
+                // 1 => absent , 2 => present 3=> retard
+                xhr.open('POST', "{{route('update.ajax')}}");
+
+                xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+                //Dès que la réponse est reçue...
+                xhr.onload = function(){
+                    //Si le statut HTTP n'est pas 200...
+                    if (xhr.status != 200){ 
+                        //...On affiche le statut et le message correspondant
+                        alert("Erreur " + xhr.status + " : " + xhr.statusText);
+                    //Si le statut HTTP est 200, on affiche le nombre d'octets téléchargés et la réponse
+                    }else{ 
+                        // location.reload();
+                        // alert(xhr.response.length + " octets  téléchargés\n" + JSON.stringify(xhr.response));
+                    }
+                    // console.log(JSON.parse(xhr.response));
+                };
+
+                //Si la requête n'a pas pu aboutir...
+                xhr.onerror = function(){
+                    alert("La requête a échoué");
+                };
+                xhr.send(formData)
+            });
+        });
+        
+    </script>
 @endsection

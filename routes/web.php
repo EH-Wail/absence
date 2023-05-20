@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [AppearanceController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::get('/login',[LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'attempt'])->name('login.attempt');
+Route::post('/login', [LoginController::class, 'attempt'])->name('login.attempt')->middleware('guest');
 Route::post('/logout', [LogoutController::class, 'destroy'])->name('logout')->middleware('auth');
 
+Route::post('update', [AppearanceController::class, 'update_absence'])->name('update.ajax');

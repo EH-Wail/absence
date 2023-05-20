@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class LoginController extends Controller
 {
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/';
     public function index()
     {
         return view('login');
@@ -23,7 +24,7 @@ class LoginController extends Controller
         ]);
         if (Auth::attempt($user_info, $request->filled('remember'))){
             $request->session()->regenerate();
-            return redirect()->intended('home');
+            return Redirect::to('/');
         }
         return back()->withErrors([
             'username' => "nom ou mot de passe incorrecte",

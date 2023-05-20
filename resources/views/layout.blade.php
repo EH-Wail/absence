@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     @yield('css')
     <title>@yield('title')</title>
+    @yield('meta')
 </head>
 <body>
     @yield('content')
